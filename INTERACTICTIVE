@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jaja Clearing and Forwarding Limited - Professional Customs Brokerage, Cargo Freight, Warehousing, Export Services and Tax Consultancy in East Africa">
     <title>JAJA CLEARING AND FORWARDING LIMITED | One Person Company</title>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --primary: #1E40AF;   /* Deep Blue - Trust & Professionalism */
-            --secondary: #10B981; /* Emerald Green - Growth & East Africa */
-            --accent: #F59E0B;    /* Amber - Energy & Forwarding */
+            --primary: #1E40AF;
+            --secondary: #10B981;
+            --accent: #F59E0B;
             --dark: #1F2937;
             --light: #F3F4F6;
         }
@@ -21,6 +24,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }
         body {
             font-family: 'Montserrat', sans-serif;
@@ -28,181 +32,96 @@
             color: var(--dark);
             background: #fff;
         }
+
+        /* -------------------- Header -------------------- */
         header {
-            background: linear-gradient(rgba(30,64,175,0.9), rgba(30,64,175,0.95)), url('https://source.unsplash.com/random/1600x900/?logistics,africa');
+            background: linear-gradient(rgba(30,64,175,0.9), rgba(30,64,175,0.95)), 
+                        url('https://source.unsplash.com/random/1600x900/?logistics,africa');
             background-size: cover;
             color: white;
             text-align: center;
             padding: 120px 20px;
+            animation: fadeInDown 1s ease-out;
         }
+
         header h1 {
             font-size: 3.5rem;
             margin-bottom: 10px;
-            text-transform: uppercase;
             letter-spacing: 2px;
         }
-        header p {
-            font-size: 1.3rem;
-            max-width: 800px;
-            margin: 0 auto;
-            opacity: 0.95;
-        }
-        .badge {
-            display: inline-block;
-            background: var(--secondary);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            margin-top: 15px;
-            font-weight: 600;
-        }
-        section {
-            padding: 80px 5%;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+
+        /* Section Heading Animation */
         h2 {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 50px;
             color: var(--primary);
-            position: relative;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all .8s ease;
         }
-        h2::after {
-            content: '';
-            width: 100px;
-            height: 4px;
-            background: var(--secondary);
-            display: block;
-            margin: 20px auto;
+        h2.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-        /* About Section */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-        .ceo-message {
-            background: var(--light);
-            padding: 40px;
-            border-left: 6px solid var(--secondary);
-            font-style: italic;
-            font-size: 1.2rem;
-            margin-top: 40px;
-        }
-        .ceo-name {
-            margin-top: 20px;
-            font-weight: 700;
-            color: var(--primary);
-            font-style: normal;
-        }
-        /* Services */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
+
+        /* Service Cards Hover Glow */
         .service-card {
-            background: white;
-            padding: 40px 30px;
-            text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            cursor: pointer;
+            transition: 0.3s;
         }
         .service-card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
-        .service-card i {
-            font-size: 3.5rem;
-            color: var(--secondary);
-            margin-bottom: 20px;
+        .service-card:active {
+            transform: scale(1.03);
         }
-        /* CTA Buttons */
-        .btn {
-            display: inline-block;
-            padding: 14px 32px;
-            margin: 15px;
-            border-radius: 50px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            text-decoration: none;
-            cursor: pointer;
-        }
+
+        /* CTA Button Pulse */
         .btn-primary {
-            background: var(--primary);
-            color: white;
+            animation: pulse 2s infinite;
         }
-        .btn-primary:hover {
-            background: #1e3a8a;
-            transform: translateY(-3px);
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+
+        /* General Section Fade-In Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all .9s ease;
         }
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: white;
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .cta-section {
-            text-align: center;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+
+        /* Keyframe for Header */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-        /* Contact */
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-        }
-        .contact-card {
-            background: var(--light);
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .contact-card i {
-            font-size: 2.5rem;
-            color: var(--secondary);
-            margin-bottom: 15px;
-        }
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 50px 20px;
-        }
-        /* Responsive */
-        @media (max-width: 768px) {
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-            header h1 {
-                font-size: 2.5rem;
-            }
-        }
+
     </style>
 </head>
 <body>
+
     <!-- Header -->
     <header>
         <h1>Jaja Clearing and Forwarding Limited</h1>
         <p>Your Trusted Partner in Seamless Logistics Across East Africa</p>
         <div class="badge">One Person Company • Founded 2025 • Official Launch March 2026</div>
     </header>
-    <!-- About Section -->
-    <section id="about">
+
+
+    <!-- ABOUT -->
+    <section id="about" class="fade-in">
         <div class="container">
             <h2>About Us</h2>
+
             <div class="about-grid">
                 <div>
                     <p style="font-size:1.1rem; line-height:1.8;">
@@ -214,6 +133,7 @@
                         Led by our visionary CEO, <strong>Taedious Odeke Ochuna</strong>, we are committed to excellence, transparency, and customer satisfaction in every shipment.
                     </p>
                 </div>
+
                 <div>
                     <div class="ceo-message">
                         "Welcome to Jaja Clearing and Forwarding Limited — Your number one partner in seamless global logistics. 
@@ -224,31 +144,38 @@
             </div>
         </div>
     </section>
-    <!-- Services Section -->
-    <section id="services">
+
+
+    <!-- SERVICES -->
+    <section id="services" class="fade-in">
         <div class="container">
             <h2>Our Services</h2>
+
             <div class="services-grid">
                 <div class="service-card">
                     <i class="fas fa-file-invoice-dollar"></i>
                     <h3>Customs Brokerage</h3>
                     <p>Expert handling of all customs documentation and clearance procedures.</p>
                 </div>
+
                 <div class="service-card">
                     <i class="fas fa-truck-loading"></i>
                     <h3>Cargo Freight (East Africa)</h3>
                     <p>Reliable road freight services across Kenya, Uganda, Tanzania, Rwanda, and beyond.</p>
                 </div>
+
                 <div class="service-card">
                     <i class="fas fa-warehouse"></i>
                     <h3>Warehousing Brokerage</h3>
                     <p>Secure short-term and long-term storage solutions with full brokerage support.</p>
                 </div>
+
                 <div class="service-card">
                     <i class="fas fa-globe-africa"></i>
-                    <h3>Export Services & Advice</h8>
+                    <h3>Export Services & Advice</h3>
                     <p>Comprehensive guidance on export procedures, documentation, and compliance.</p>
                 </div>
+
                 <div class="service-card">
                     <i class="fas fa-calculator"></i>
                     <h3>Tax Consultancy</h3>
@@ -257,56 +184,86 @@
             </div>
         </div>
     </section>
-    <!-- CTA Section -->
-    <section class="cta-section">
+
+
+    <!-- CTA -->
+    <section class="cta-section fade-in">
         <div class="container">
             <h2>Ready to Move Your Cargo?</h2>
             <p style="font-size:1.3rem; max-width:800px; margin:0 auto 40px;">
                 Contact us today for competitive quotes and professional logistics support.
             </p>
-            <a href="#get-quote" class="btn btn-primary">Get a Free Quote</a>
+
+            <a href="#contact" class="btn btn-primary">Get a Free Quote</a>
             <a href="#contact" class="btn btn-secondary">Service Inquiry</a>
         </div>
     </section>
-    <!-- Contact Section -->
-    <section id="contact">
+
+
+    <!-- CONTACT -->
+    <section id="contact" class="fade-in">
         <div class="container">
             <h2>Contact Us</h2>
+
             <div class="contact-info">
                 <div class="contact-card">
                     <i class="fas fa-envelope"></i>
                     <h3>Email</h3>
                     <p>info@jajaclearing.co.ke</p>
                 </div>
+
                 <div class="contact-card">
                     <i class="fas fa-phone"></i>
                     <h3>Phone / WhatsApp</h3>
-                    <p>+254 792 659 899 (Available soon)</p>
+                    <p>+254 700 000 000 (Available soon)</p>
                 </div>
+
                 <div class="contact-card">
                     <i class="fas fa-map-marker-alt"></i>
                     <h3>Address</h3>
                     <p>P.O. Box 239<br>Nairobi, Kenya</p>
                 </div>
             </div>
+
             <div style="margin-top:60px; text-align:center;">
-                <p><strong>LinkedIn:</strong> <a href="#" style="color:var(--secondary);">www.linkedin.com/in/
-taediousochunake
-Vanity URL name
-</a></p>
+                <p><strong>LinkedIn:</strong> <a href="#" style="color:var(--secondary);">linkedin.com/company/jaja-clearing</a></p>
                 <br>
                 <p><strong>Our Location (Coming Soon on Google Maps)</strong></p>
+
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8159!2d36.8219!3d-1.2921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTcnMzEuNyJTIDM2wrA0OScxOS4yIkU!5e0!3m2!1sen!2ske!4v1732000000000" 
-                    width="100%" height="400" style="border:0; border-radius:12px; max-width:900px;" 
-                    allowfullscreen="" loading="lazy"></iframe>
+                    src="https://www.google.com/maps/embed?pb=" 
+                    width="100%" height="400" 
+                    style="border:0; border-radius:12px; max-width:900px;"
+                    allowfullscreen loading="lazy"></iframe>
             </div>
         </div>
     </section>
-    <!-- Footer -->
+
+
+    <!-- FOOTER -->
     <footer>
         <p>&copy; 2025 Jaja Clearing and Forwarding Limited. All Rights Reserved. | One Person Company</p>
         <p>Founded by Taedious Odeke Ochuna | Official Launch: March 2026</p>
     </footer>
+
+
+    <!-- ================= INTERACTION SCRIPT ================= -->
+    <script>
+        // Reveal animation on scroll
+        const revealElements = document.querySelectorAll('.fade-in, h2');
+
+        function revealOnScroll() {
+            const trigger = window.innerHeight * 0.85;
+
+            revealElements.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                if (top < trigger) el.classList.add('visible');
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+    </script>
+
 </body>
 </html>
