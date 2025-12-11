@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jaja Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@latest/dist/jspdf.umd.min.js"></script>
+  <style>
+    :root { --primary: #1E40AF; --secondary: #10B981; --light: #F3F4F6; --dark: #1F2937; }
+    body { font-family: 'Montserrat', sans-serif; background: #f9fafb; color: var(--dark); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+    .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-success { background: var(--secondary); color: white; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: var(--light); }
+    .status { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
+    .status-pending { background: #FEF3C7; color: #92400E; }
+    .status-cleared { background: #D1FAE5; color: #065F46; }
+  </style>
+</head>
+<body>
+<div x-data="adminPanel()" class="container">
+  <!-- Simple Password Protection -->
+  <template x-if="!authenticated">
+    <div style="max-width:400px; margin:80px auto; text-align:center;" class="card">
+      <h2>Jaja Admin Panel</h2>
+      <input type="password" x-model="password" placeholder="Enter password" @keyup.enter="login()" />
+      <button class="btn btn-primary" @click="login()">Login</button>
+      <p style="color:red; margin-top:10px;" x-show="error">Wrong password</p>
+    </div>
+  </template>
+
+  <!-- Main Dashboard -->
+  <template x-if="authenticated">
+    <div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+        <h1>Jaja Clearing Admin Panel</h1>
+        <button class="btn" style="background:#ef4444; color:white;" @click="logout()">Logout</button>
+      </div>
+
+      <div class="card">
+        <h2>Add New Job / Quote</h2>
+        <input type="text" placeholder="Client Name" x-model="newJob.client" />
+        <input type="text" placeholder="BL / AWB Number" x-model="newJob.bl" />
+        <input type="text" placeholder="Origin → Destination" x-model="newJob.route" />
+        <select x-model="newJob.status">
+          <option value="New Inquiry">New Inquiry</option>
+          <option value="Quote Sent">Quote Sent</option>
+          <option value="Documents Received">Documents Received</option>
+          <option value="Customs Cleared">Customs Cleared</option>
+          <option value="Delivered">Delivered</option>
+          <option value="Paid">Paid</option>
+        </select>
+        <button class="btn btn-success" @click="addJob()">Add Job</button>
+      </div>
+
+      <div class="card" style="margin-top:30px;">
+        <h2>Active Jobs (<span x-text="jobs.length"></span>)</h2>
+        <table>
+          <tr>
+            <th>Job ID</th><th>Client</th><th>BL/AWB</th><th>Route</th><th>Status</th><th>Actions</th>
+          </tr>
+          <template x-for="job in jobs" :key="job.id">
+            <tr>
+              <td x-text="job.id"></td>
+              <td x-text="job.client"></td>
+              <td x-text="job.bl"></td>
+              <td x-text="job.route"></td>
+              <td><span class="status" :class="job.status.includes('Clear') ? 'status-cleared' : 'status-pending'" x-text="job.status"></span></td>
+              <td><button @click="removeJob(job.id)" style="color:red;">Delete</button></td>
+            </tr>
+          </template>
+        </table>
+      </div>
+
+      <div style="margin-top:30px; text-align:center;">
+        <button class="btn btn-primary" @click="exportData()">Export All Data (JSON)</button>
+      </div>
+    </div>
+  </template>
+</div>
+
+<script>
+function adminPanel() {
+  return {
+    password: '',
+    authenticated: false,
+    error: false,
+    jobs: JSON.parse(localStorage.getItem('jajaJobs') || '[]'),
+    newJob: { client:'', bl:'', route:'', status:'New Inquiry' },
+
+    login() {
+      if (this.password === 'jaja2026') {  // Change this password!
+        this.authenticated = true;
+        this.error = false;
+      } else {
+        this.error = true;
+      }
+    },
+    logout() { this.authenticated = false; this.password = ''; },
+
+    addJob() {
+      const job = {
+        id: 'JCF' + String(this.jobs.length + 1).padStart(3, '0'),
+        ...this.newJob,
+        date: new Date().toLocaleDateString()
+      };
+      this.jobs.push(job);
+      this.save();
+      this.newJob = { client:'', bl:'', route:'', status:'New Inquiry' };
+    },
+    removeJob(id) {
+      this.jobs = this.jobs.filter(j => j.id !== id);
+      this.save();
+    },
+    save() {
+      localStorage.setItem('jajaJobs', JSON.stringify(this.jobs));
+    },
+    exportData() {
+      const data = JSON.stringify(this.jobs, null, 2);
+      const blob = new Blob([data], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'jaja-jobs-backup.json';
+      a.click();
+    }
+  }
+}
+</script>
+</body>
+</html>
