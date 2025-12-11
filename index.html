@@ -16,6 +16,7 @@
             --accent: #F59E0B;    /* Amber - Energy & Forwarding */
             --dark: #1F2937;
             --light: #F3F4F6;
+            --container: 1200px;
         }
         * {
             margin: 0;
@@ -33,7 +34,7 @@
             background-size: cover;
             color: white;
             text-align: center;
-            padding: 120px 20px;
+            padding: 120px 20px 40px; /* reduced bottom padding to fit nav */
         }
         header h1 {
             font-size: 3.5rem;
@@ -56,11 +57,45 @@
             margin-top: 15px;
             font-weight: 600;
         }
+
+        /* Navigation Tabs (Admin / Client) */
+        .tabs-wrapper {
+            background: white;
+            max-width: var(--container);
+            margin: -30px auto 40px; /* pull up toward header */
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            padding: 12px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .tab {
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+            color: var(--primary);
+            background: transparent;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .tab:hover { transform: translateY(-3px); }
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(30,64,175,0.15);
+        }
+
         section {
             padding: 80px 5%;
         }
         .container {
-            max-width: 1200px;
+            max-width: var(--container);
             margin: 0 auto;
         }
         h2 {
@@ -189,6 +224,9 @@
             header h1 {
                 font-size: 2.5rem;
             }
+            .tabs-wrapper {
+                margin: -10px 12px 20px;
+            }
         }
     </style>
 </head>
@@ -199,6 +237,16 @@
         <p>Your Trusted Partner in Seamless Logistics Across East Africa</p>
         <div class="badge">One Person Company • Founded 2025 • Official Launch March 2026</div>
     </header>
+
+    <!-- Tabs (Admin / Client) - open separate pages so forms are not on the main sheet -->
+    <div class="tabs-wrapper" role="navigation" aria-label="Portal tabs">
+        <div class="tabs container" style="max-width:900px;">
+            <a href="admin.html" class="tab" id="tab-admin" aria-controls="admin">Admin</a>
+            <a href="client.html" class="tab" id="tab-client" aria-controls="client">Client</a>
+            <a href="#contact" class="tab" style="margin-left:18px; background:transparent; color:var(--dark); border:1px solid #e6e9ef;" id="tab-contact">Contact</a>
+        </div>
+    </div>
+
     <!-- About Section -->
     <section id="about">
         <div class="container">
@@ -224,6 +272,7 @@
             </div>
         </div>
     </section>
+
     <!-- Services Section -->
     <section id="services">
         <div class="container">
@@ -246,7 +295,7 @@
                 </div>
                 <div class="service-card">
                     <i class="fas fa-globe-africa"></i>
-                    <h3>Export Services & Advice</h8>
+                    <h3>Export Services & Advice</h3>
                     <p>Comprehensive guidance on export procedures, documentation, and compliance.</p>
                 </div>
                 <div class="service-card">
@@ -257,6 +306,7 @@
             </div>
         </div>
     </section>
+
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
@@ -264,10 +314,11 @@
             <p style="font-size:1.3rem; max-width:800px; margin:0 auto 40px;">
                 Contact us today for competitive quotes and professional logistics support.
             </p>
-            <a href="#get-quote" class="btn btn-primary">Get a Free Quote</a>
+            <a href="client.html" class="btn btn-primary">Get a Free Quote</a>
             <a href="#contact" class="btn btn-secondary">Service Inquiry</a>
         </div>
     </section>
+
     <!-- Contact Section -->
     <section id="contact">
         <div class="container">
@@ -290,19 +341,17 @@
                 </div>
             </div>
             <div style="margin-top:60px; text-align:center;">
-                <p><strong>LinkedIn:</strong> <a href="#" style="color:var(--secondary);">www.linkedin.com/in/
-taediousochunake
-Vanity URL name
-</a></p>
+                <p><strong>LinkedIn:</strong> <a href="#" style="color:var(--secondary);">www.linkedin.com/in/taediousochunake</a></p>
                 <br>
                 <p><strong>Our Location (Coming Soon on Google Maps)</strong></p>
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8159!2d36.8219!3d-1.2921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTcnMzEuNyJTIDM2wrA0OScxOS4yIkU!5e0!3m2!1sen!2ske!4v1732000000000" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8159!2d36.8219!3d-1.2921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1"
                     width="100%" height="400" style="border:0; border-radius:12px; max-width:900px;" 
                     allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
+
     <!-- Footer -->
     <footer>
         <p>&copy; 2025 Jaja Clearing and Forwarding Limited. All Rights Reserved. | One Person Company</p>
